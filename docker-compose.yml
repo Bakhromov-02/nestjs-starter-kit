@@ -2,7 +2,7 @@ version: '3.8'
 services:
   db:
     image: postgres:14.0-alpine
-    container_name: starter-kit-db
+    container_name: ${TYPEORM_DATABASE}
     restart: always
     environment:
       POSTGRES_USER: ${TYPEORM_USERNAME}
@@ -25,13 +25,25 @@ services:
     depends_on:
       - db
     restart: always
+    networks:
+      - app-network
+
+  nginx:
+    image: nginx
+    build:
+      context: ./config/nginx
     ports:
-      - '8000:8000'
+      - "80:80"
+    volumes:
+      - ./config/nginx/default.conf:/etc/nginx/default.conf
+    depends_on:
+      - app
     networks:
       - app-network
 
 volumes:
   pgdata:
+
 
 networks:
   app-network:

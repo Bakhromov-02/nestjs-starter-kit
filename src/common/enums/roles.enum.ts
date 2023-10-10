@@ -1,0 +1,8 @@
+export enum RolesEnum {
+  CUSTOMER = 'CUSTOMER',
+  SUPERADMIN = 'SUPERADMIN',
+  ADMIN = 'ADMIN',
+  CASHIER = 'CASHIER',
+  DEALER = 'DEALER',
+}
+
