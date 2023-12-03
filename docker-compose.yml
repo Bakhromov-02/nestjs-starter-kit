@@ -1,7 +1,21 @@
 version: '3.8'
 services:
+
+  app:
+    container_name: starter-kit-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    depends_on:
+      - db
+    restart: always
+    networks:
+      - app-network
+
   db:
-    image: postgres:14.0-alpine
+    image: postgres:16.0-alpine3.18
     container_name: ${TYPEORM_DATABASE}
     restart: always
     environment:
@@ -16,20 +30,9 @@ services:
       - .env
     networks:
       - app-network
-  app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    env_file:
-      - .env
-    depends_on:
-      - db
-    restart: always
-    networks:
-      - app-network
 
   nginx:
-    image: nginx
+    container_name: starter-kit-nginx
     build:
       context: ./config/nginx
     ports:
